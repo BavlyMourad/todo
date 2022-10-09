@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/screens/add_task_screen.dart';
-import 'package:todo_app/widgets/todo_list.dart';
+import 'package:todo_app/utils/app_colors.dart';
+import 'package:todo_app/utils/app_strings.dart';
+import 'package:todo_app/utils/app_utils.dart';
+import 'package:todo_app/widgets/tasks_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,29 +12,44 @@ class HomeScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xFF303030),
+        backgroundColor: AppColors.dark,
         appBar: AppBar(
-          title: const Text(
-            'ToDo App',
-            style: TextStyle(color: Colors.white),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                AppStrings.appTitle,
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontFamily: AppStrings.dancingScriptFont,
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(width: 10.0),
+              Image.asset(
+                AppStrings.logoImg,
+                width: 42.0,
+                height: 42.0,
+              ),
+            ],
           ),
-          backgroundColor: const Color(0xFF303030),
-          centerTitle: true,
+          backgroundColor: AppColors.dark,
           bottom: const TabBar(
             tabs: [
               Tab(
                 child: Text(
-                  'Current',
+                  '${AppStrings.currentTabBar} (7)',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
               Tab(
                 child: Text(
-                  'Completed',
+                  '${AppStrings.completedTabBar} (4)',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -41,27 +58,15 @@ class HomeScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            TodoList(),
-            TodoList(),
+            TasksList(),
+            TasksList(),
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) {
-                return SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom,
-                    ),
-                    child: const AddTaskScreen(),
-                  ),
-                );
-              },
-            );
-          },
+          onPressed: () => AppUtils.showBottomModalSheet(
+            context,
+            isNewTask: true,
+          ),
           child: const Icon(Icons.add),
         ),
       ),
