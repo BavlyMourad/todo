@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/utils/app_colors.dart';
 import 'package:todo_app/utils/app_strings.dart';
 import 'package:todo_app/utils/app_utils.dart';
-import 'package:todo_app/widgets/task_date.dart';
 import 'package:todo_app/widgets/task_list_tile.dart';
 
 class TaskCard extends StatefulWidget {
@@ -26,7 +25,7 @@ class _TaskCardState extends State<TaskCard> {
         vertical: 10.0,
       ),
       child: Slidable(
-        startActionPane: ActionPane(
+        endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
@@ -39,11 +38,6 @@ class _TaskCardState extends State<TaskCard> {
               icon: Icons.edit,
               label: AppStrings.editButtonTitle,
             ),
-          ],
-        ),
-        endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          children: [
             SlidableAction(
               onPressed: (context) {},
               backgroundColor: AppColors.red400,
@@ -72,9 +66,6 @@ class _TaskCardState extends State<TaskCard> {
                       isCompleted = !isCompleted;
                     });
                   },
-                ),
-                const TaskDate(
-                  date: '15 Jun 2022',
                 ),
               ],
             ),
