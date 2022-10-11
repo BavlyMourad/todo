@@ -2,12 +2,12 @@ import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/models/local/app_db.dart';
-import 'package:todo_app/view_models/tasks_view_model.dart';
 
+import '../../models/local/app_db.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/app_utils.dart';
+import '../../view_models/tasks_view_model.dart';
 import 'task_list_tile.dart';
 
 class TaskCard extends StatelessWidget {
@@ -32,7 +32,6 @@ class TaskCard extends StatelessWidget {
             SlidableAction(
               onPressed: (context) => AppUtils.showBottomModalSheet(
                 context,
-                isNewTask: false,
                 task: task,
               ),
               backgroundColor: AppColors.green400,
@@ -41,7 +40,9 @@ class TaskCard extends StatelessWidget {
               label: AppStrings.editButtonTitle,
             ),
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                context.read<TasksViewModel>().deleteTask(task.id);
+              },
               backgroundColor: AppColors.red400,
               foregroundColor: AppColors.white,
               icon: Icons.delete,
@@ -67,7 +68,15 @@ class TaskCard extends StatelessWidget {
                 TaskListTile(
                   taskTitle: task.title,
                   isCompleted: task.isCompleted,
-                  onChanged: (newValue) {},
+                  onChanged: (newValue) {
+                    context.read<TasksViewModel>().editTask(
+                          TasksCompanion(
+                            id: drift.Value(task.id),
+                            title: drift.Value(task.title),
+                            isCompleted: drift.Value(!task.isCompleted),
+                          ),
+                        );
+                  },
                 ),
               ],
             ),

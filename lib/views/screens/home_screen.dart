@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/local/app_db.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/app_utils.dart';
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
             tabs: [
               Tab(
                 child: Text(
-                  '${AppStrings.currentTabBar} (${context.watch<TasksViewModel>().currentTasks.length})',
+                  '${AppStrings.currentTabBar} (${context.select<TasksViewModel, int>((tasksViewModel) => tasksViewModel.currentTasks.length)})',
                   style: const TextStyle(
                     color: AppColors.white,
                   ),
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Tab(
                 child: Text(
-                  '${AppStrings.completedTabBar} (${context.watch<TasksViewModel>().completedTasks.length})',
+                  '${AppStrings.completedTabBar} (${context.select<TasksViewModel, int>((tasksViewModel) => tasksViewModel.completedTasks.length)})',
                   style: const TextStyle(
                     color: AppColors.white,
                   ),
@@ -59,99 +60,23 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             TasksList(isCompleted: false),
             TasksList(isCompleted: true),
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => AppUtils.showBottomModalSheet(
-            context,
-            isNewTask: true,
-          ),
+          onPressed: () {
+            AppUtils.showBottomModalSheet(
+              context,
+              // Useless dummy data since we will add a new task anyway
+              task: const Task(id: 0, title: '', isCompleted: false),
+            );
+          },
           child: const Icon(Icons.add),
         ),
       ),
     );
   }
 }
-
-
-/*
-
-import 'package:flutter/material.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TODO ${tabController.index + 1}'),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: tabController,
-          tabs: [
-            Tab(
-              child: Text(
-                'Current',
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),
-              ),
-            ),
-            Tab(
-              child: Text(
-                'Completed',
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          Center(
-            child: Text('5'),
-          ),
-          Center(
-            child: Text('8'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-*/

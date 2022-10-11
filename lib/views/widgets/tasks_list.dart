@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/view_models/tasks_view_model.dart';
 
+import '../../view_models/tasks_view_model.dart';
 import 'task_card.dart';
 
 class TasksList extends StatelessWidget {
-  TasksList({super.key, required this.isCompleted});
+  const TasksList({super.key, required this.isCompleted});
 
-  bool isCompleted;
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TasksViewModel>(
       builder: (context, tasksViewModel, child) {
+        final currentTasks = tasksViewModel.currentTasks;
+        final completedTasks = tasksViewModel.completedTasks;
+
         return ListView.builder(
-          itemCount: isCompleted
-              ? tasksViewModel.completedTasks.length
-              : tasksViewModel.currentTasks.length,
+          itemCount: isCompleted ? completedTasks.length : currentTasks.length,
           itemBuilder: (context, index) {
             return TaskCard(
-              task: isCompleted
-                  ? tasksViewModel.completedTasks[index]
-                  : tasksViewModel.currentTasks[index],
+              task: isCompleted ? completedTasks[index] : currentTasks[index],
             );
           },
         );

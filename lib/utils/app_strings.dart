@@ -26,5 +26,5 @@ class AppStrings {
   static const String taskTitleHintText = 'Title';
 
   // Errors
-  static const String taskTitleIsEmptyError = 'Task can\'t be empty';
+  static const String taskTitleIsEmptyError = 'Title can\'t be empty';
 }

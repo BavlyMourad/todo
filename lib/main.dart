@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app.dart';
-import 'package:todo_app/view_models/tasks_view_model.dart';
 
+import 'app.dart';
 import 'models/local/app_db.dart';
+import 'view_models/tasks_view_model.dart';
 
 void main() {
   runApp(

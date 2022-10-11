@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/local/app_db.dart';
+
+import '../models/local/app_db.dart';
 
 class TasksViewModel with ChangeNotifier {
   AppDb? _appDb;
@@ -37,6 +38,11 @@ class TasksViewModel with ChangeNotifier {
 
   void editTask(TasksCompanion entity) {
     _appDb!.updateTask(entity);
+    notifyListeners();
+  }
+
+  void deleteTask(int taskId) {
+    _appDb!.deleteTask(taskId);
     notifyListeners();
   }
 }
