@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/utils/app_colors.dart';
-import 'package:todo_app/utils/app_strings.dart';
-import 'package:todo_app/utils/app_utils.dart';
-import 'package:todo_app/widgets/tasks_list.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/app_colors.dart';
+import '../../utils/app_strings.dart';
+import '../../utils/app_utils.dart';
+import '../../view_models/tasks_view_model.dart';
+import '../widgets/tasks_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,6 +17,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.dark,
         appBar: AppBar(
+          backgroundColor: AppColors.dark,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -34,21 +38,20 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          backgroundColor: AppColors.dark,
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
               Tab(
                 child: Text(
-                  '${AppStrings.currentTabBar} (7)',
-                  style: TextStyle(
+                  '${AppStrings.currentTabBar} (${context.watch<TasksViewModel>().currentTasks.length})',
+                  style: const TextStyle(
                     color: AppColors.white,
                   ),
                 ),
               ),
               Tab(
                 child: Text(
-                  '${AppStrings.completedTabBar} (4)',
-                  style: TextStyle(
+                  '${AppStrings.completedTabBar} (${context.watch<TasksViewModel>().completedTasks.length})',
+                  style: const TextStyle(
                     color: AppColors.white,
                   ),
                 ),
@@ -58,8 +61,8 @@ class HomeScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            TasksList(),
-            TasksList(),
+            TasksList(isCompleted: false),
+            TasksList(isCompleted: true),
           ],
         ),
         floatingActionButton: FloatingActionButton(

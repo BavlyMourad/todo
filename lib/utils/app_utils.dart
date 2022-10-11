@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/screens/task_screen.dart';
+import 'package:todo_app/models/local/app_db.dart';
+
+import '../views/screens/task_screen.dart';
 
 class AppUtils {
   static void showBottomModalSheet(
     BuildContext context, {
     required bool isNewTask,
+    Task? task,
   }) {
     showModalBottomSheet(
       context: context,
@@ -15,7 +18,7 @@ class AppUtils {
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            child: TaskScreen(isNewTask: isNewTask),
+            child: TaskScreen(isNewTask: isNewTask, task: task!),
           ),
         );
       },

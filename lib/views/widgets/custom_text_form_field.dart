@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/utils/app_colors.dart';
-import 'package:todo_app/utils/app_strings.dart';
+
+import '../../utils/app_colors.dart';
+import '../../utils/app_strings.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key, required this.onChanged});
+  const CustomTextFormField({
+    super.key,
+    required this.onChanged,
+    required this.value,
+  });
 
   final Function(String?) onChanged;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +42,10 @@ class CustomTextFormField extends StatelessWidget {
         color: AppColors.white,
       ),
       onChanged: onChanged,
+      initialValue: value,
       validator: (value) {
         if (value!.isEmpty) {
-          return AppStrings.taskIsEmptyError;
+          return AppStrings.taskTitleIsEmptyError;
         }
         return null;
       },

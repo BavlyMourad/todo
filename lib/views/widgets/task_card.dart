@@ -1,21 +1,22 @@
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todo_app/utils/app_colors.dart';
-import 'package:todo_app/utils/app_strings.dart';
-import 'package:todo_app/utils/app_utils.dart';
-import 'package:todo_app/widgets/task_list_tile.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/models/local/app_db.dart';
+import 'package:todo_app/view_models/tasks_view_model.dart';
 
-class TaskCard extends StatefulWidget {
-  const TaskCard({super.key, required this.taskTitle});
+import '../../utils/app_colors.dart';
+import '../../utils/app_strings.dart';
+import '../../utils/app_utils.dart';
+import 'task_list_tile.dart';
 
-  final String taskTitle;
+class TaskCard extends StatelessWidget {
+  const TaskCard({
+    super.key,
+    required this.task,
+  });
 
-  @override
-  State<TaskCard> createState() => _TaskCardState();
-}
-
-class _TaskCardState extends State<TaskCard> {
-  bool isCompleted = false;
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class _TaskCardState extends State<TaskCard> {
               onPressed: (context) => AppUtils.showBottomModalSheet(
                 context,
                 isNewTask: false,
+                task: task,
               ),
               backgroundColor: AppColors.green400,
               foregroundColor: AppColors.white,
@@ -49,9 +51,13 @@ class _TaskCardState extends State<TaskCard> {
         ),
         child: InkWell(
           onTap: () {
-            setState(() {
-              isCompleted = !isCompleted;
-            });
+            context.read<TasksViewModel>().editTask(
+                  TasksCompanion(
+                    id: drift.Value(task.id),
+                    title: drift.Value(task.title),
+                    isCompleted: drift.Value(!task.isCompleted),
+                  ),
+                );
           },
           child: Container(
             color: AppColors.lightDark,
@@ -59,13 +65,9 @@ class _TaskCardState extends State<TaskCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TaskListTile(
-                  taskTitle: widget.taskTitle,
-                  isCompleted: isCompleted,
-                  onChanged: (newValue) {
-                    setState(() {
-                      isCompleted = !isCompleted;
-                    });
-                  },
+                  taskTitle: task.title,
+                  isCompleted: task.isCompleted,
+                  onChanged: (newValue) {},
                 ),
               ],
             ),

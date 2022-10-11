@@ -1,6 +1,6 @@
 class AppStrings {
   // App Title
-  static const String appTitle = 'Todo';
+  static const String appTitle = 'ToDo';
 
   // Images
   static const String logoImg = 'assets/images/logo.png';
@@ -26,5 +26,5 @@ class AppStrings {
   static const String taskTitleHintText = 'Title';
 
   // Errors
-  static const String taskIsEmptyError = 'Task can\'t be empty';
+  static const String taskTitleIsEmptyError = 'Task can\'t be empty';
 }
