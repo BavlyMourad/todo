@@ -2,11 +2,89 @@
 
 part of 'app_db.dart';
 
-// **************************************************************************
-// DriftDatabaseGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
+class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isCompletedMeta =
+      const VerificationMeta('isCompleted');
+  @override
+  late final GeneratedColumn<bool> isCompleted =
+      GeneratedColumn<bool>('is_completed', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_completed" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [id, title, isCompleted];
+  @override
+  String get aliasedName => _alias ?? 'tasks';
+  @override
+  String get actualTableName => 'tasks';
+  @override
+  VerificationContext validateIntegrity(Insertable<Task> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+          _isCompletedMeta,
+          isCompleted.isAcceptableOrUnknown(
+              data['is_completed']!, _isCompletedMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Task map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Task(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      isCompleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_completed'])!,
+    );
+  }
+
+  @override
+  $TasksTable createAlias(String alias) {
+    return $TasksTable(attachedDatabase, alias);
+  }
+}
+
 class Task extends DataClass implements Insertable<Task> {
   final int id;
   final String title;
@@ -136,87 +214,11 @@ class TasksCompanion extends UpdateCompanion<Task> {
   }
 }
 
-class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TasksTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _isCompletedMeta =
-      const VerificationMeta('isCompleted');
-  @override
-  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
-      'is_completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK ("is_completed" IN (0, 1))',
-      defaultValue: const Constant(false));
-  @override
-  List<GeneratedColumn> get $columns => [id, title, isCompleted];
-  @override
-  String get aliasedName => _alias ?? 'tasks';
-  @override
-  String get actualTableName => 'tasks';
-  @override
-  VerificationContext validateIntegrity(Insertable<Task> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    } else if (isInserting) {
-      context.missing(_titleMeta);
-    }
-    if (data.containsKey('is_completed')) {
-      context.handle(
-          _isCompletedMeta,
-          isCompleted.isAcceptableOrUnknown(
-              data['is_completed']!, _isCompletedMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Task map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Task(
-      id: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      isCompleted: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_completed'])!,
-    );
-  }
-
-  @override
-  $TasksTable createAlias(String alias) {
-    return $TasksTable(attachedDatabase, alias);
-  }
-}
-
 abstract class _$AppDb extends GeneratedDatabase {
   _$AppDb(QueryExecutor e) : super(e);
   late final $TasksTable tasks = $TasksTable(this);
   @override
-  Iterable<TableInfo<Table, dynamic>> get allTables =>
+  Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [tasks];
