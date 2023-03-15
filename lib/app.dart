@@ -13,7 +13,6 @@ class ToDoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppStrings.appTitle,
       theme: ThemeData(
-        useMaterial3: true,
         primarySwatch: AppColors.primary,
         unselectedWidgetColor: AppColors.primary, // Checkbox border
       ),

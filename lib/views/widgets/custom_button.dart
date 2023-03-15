@@ -19,6 +19,9 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 50),
         backgroundColor: AppColors.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(35.0),
+        ),
       ),
       child: Text(
         title,
