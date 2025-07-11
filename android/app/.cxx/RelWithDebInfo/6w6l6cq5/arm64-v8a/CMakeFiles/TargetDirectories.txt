@@ -1,0 +1,2 @@
+/Users/bavlymourad/Developer/Projects/Resume/todo/android/app/.cxx/RelWithDebInfo/6w6l6cq5/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/bavlymourad/Developer/Projects/Resume/todo/android/app/.cxx/RelWithDebInfo/6w6l6cq5/arm64-v8a/CMakeFiles/rebuild_cache.dir

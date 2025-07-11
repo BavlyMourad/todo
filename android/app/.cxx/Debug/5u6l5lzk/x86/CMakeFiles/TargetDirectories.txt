@@ -1,0 +1,2 @@
+/Users/bavlymourad/Developer/Projects/Resume/todo/android/app/.cxx/Debug/5u6l5lzk/x86/CMakeFiles/edit_cache.dir
+/Users/bavlymourad/Developer/Projects/Resume/todo/android/app/.cxx/Debug/5u6l5lzk/x86/CMakeFiles/rebuild_cache.dir

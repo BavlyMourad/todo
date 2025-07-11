@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.todo.todo_app">
+    package="com.bavly.todo">
    <application
         android:label="ToDo"
         android:name="${applicationName}"

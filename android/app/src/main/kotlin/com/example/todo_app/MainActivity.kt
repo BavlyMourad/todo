@@ -1,4 +1,4 @@
-package com.todo.todo_app
+package com.bavly.todo
 
 import io.flutter.embedding.android.FlutterActivity
 
